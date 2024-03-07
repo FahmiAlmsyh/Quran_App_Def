@@ -15,8 +15,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
-      bottomNavigationBar: _bottomNavigationBar(),
       body: _body(),
+      bottomNavigationBar: _bottomNavigationBar(),
     );
   }
 }
@@ -39,7 +39,43 @@ AppBar _appBar() => AppBar(
       ],
     );
 
-Column _salam() => Column(
+    DefaultTabController _body() => DefaultTabController(
+    length: 3,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: NestedScrollView(
+          headerSliverBuilder:
+              (BuildContext context, bool innerBoxIsScrolled) => [
+                    SliverToBoxAdapter(
+                      child: _salam(),
+                    ),
+                    SliverAppBar(
+                      pinned: true,
+                      elevation: 0,
+                      automaticallyImplyLeading: false,
+                      shape: Border(
+                          bottom: BorderSide(
+                              width: 3, color: Colors.grey.withOpacity(0.1))),
+                      bottom: PreferredSize(
+                        preferredSize: const Size.fromHeight(0),
+                        child: TabBar(
+                            labelColor: primary,
+                            indicatorColor: primary,
+                            indicatorWeight: 3,
+                            tabs: [
+                              itemtab(label: "Surah"),
+                              itemtab(label: "Dzikir"),
+                              itemtab(label: "Doa"),
+                            ]),
+                      ),
+                    ),
+                  ],
+          body: const TabBarView(
+            children: [TabSurah(), TabDzikir(), TabDoa()],
+          )),
+    ));
+
+    Column _salam() => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(
@@ -121,6 +157,7 @@ Column _salam() => Column(
       ],
     );
 
+
 BottomNavigationBarItem _bottomNavigationBarItem(
         {required String icon, required String label}) =>
     BottomNavigationBarItem(
@@ -152,39 +189,3 @@ BottomNavigationBar _bottomNavigationBar() => BottomNavigationBar(
         )
       ],
     );
-
-DefaultTabController _body() => DefaultTabController(
-    length: 3,
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: NestedScrollView(
-          headerSliverBuilder:
-              (BuildContext context, bool innerBoxIsScrolled) => [
-                    SliverToBoxAdapter(
-                      child: _salam(),
-                    ),
-                    SliverAppBar(
-                      pinned: true,
-                      elevation: 0,
-                      automaticallyImplyLeading: false,
-                      shape: Border(
-                          bottom: BorderSide(
-                              width: 3, color: Colors.grey.withOpacity(0.1))),
-                      bottom: PreferredSize(
-                        preferredSize: const Size.fromHeight(0),
-                        child: TabBar(
-                            labelColor: primary,
-                            indicatorColor: primary,
-                            indicatorWeight: 3,
-                            tabs: [
-                              itemtab(label: "Surah"),
-                              itemtab(label: "Dzikir"),
-                              itemtab(label: "Doa"),
-                            ]),
-                      ),
-                    ),
-                  ],
-          body: const TabBarView(
-            children: [TabSurah(), TabDzikir(), TabDoa()],
-          )),
-    ));
